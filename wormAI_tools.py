@@ -115,5 +115,5 @@ def get_detection_model():
                     bounding_box_format="center_xywh",
                         backbone=backbone,
                             fpn_depth=1,)
-    od_model.load_weights('localisation_model.keras') #load model
+    od_model.load_weights('wormAI/localisation_model.keras') #load model
     return od_model
