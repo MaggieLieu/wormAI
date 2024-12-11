@@ -9,6 +9,7 @@ import matplotlib
 import keras
 from keras import ops
 import math
+import keras_cv
 
 def split_value_into_segments(value, n):
     """Splits a value into n equal segments and returns the segment values."""
@@ -106,4 +107,13 @@ def generate_worm_sim(w=500, h=500, length=250, wiggle=(250//10),r=10,ns=5):
     dy = int(bh * scaley)
     return full_sim, x,y, dx, dy
 
-
+def get_detection_model():
+    tf.keras.backend.clear_session()
+    backbone = keras_cv.models.YOLOV8Backbone.from_preset("yolo_v8_s_backbone_coco")
+    od_model = keras_cv.models.YOLOV8Detector(
+                num_classes=1,
+                    bounding_box_format="center_xywh",
+                        backbone=backbone,
+                            fpn_depth=1,)
+    od_model.load_weights('localisation_model.keras') #load model
+    return od_model
